@@ -19,9 +19,20 @@ export const possibleTileContents = [
 export function StartScreen({ start }) {
   return (
     <div>
-      <button onClick={start} className="bg-gray-400 text-white p-3">
-        Play
-      </button>
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex flex-col pt-14 items-center w-4/5 h-2/3 bg-pink-50 rounded-md font-sans">
+          <h1 className="text-pink-500 text-3xl font-semibold mb-5">Memory</h1>
+          <p className="text-pink-500 text-sm">
+            Flip over tiles looking for pairs
+          </p>
+          <button
+            onClick={start}
+            className="bg-pink-500 text-white px-10 py-1 mt-8 shadow-md rounded-full hover:bg-pink-600"
+          >
+            Play
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -77,6 +88,9 @@ export function PlayScreen({ end }) {
       if (alreadyFlippedTile.content === justFlippedTile.content) {
         confetti({
           ticks: 100,
+          origin: {
+            y: 0.7
+          }
         });
         newState = "matched";
       }
@@ -109,12 +123,21 @@ export function PlayScreen({ end }) {
 
   return (
     <>
-      <div>
-        {getTiles(6).map((tile, i) => (
-          <Tile key={i} flip={() => flip(i)} {...tile} />
-        ))}
+      <div className="flex items-center justify-center w-full h-screen">
+        <div className="flex flex-col gap-8 w-4/5 h-4/5">
+          <div className="flex justify-center items-center gap-2">
+            <p className="text-indigo-600 font-sans font-medium">Tries</p>
+            <div className="px-2 bg-indigo-200 text-center text-indigo-600 font-medium rounded-md">
+              {tryCount}
+            </div>
+          </div>
+          <div className="grid grid-cols-4 flex-1 bg-indigo-50 rounded-md p-4 gap-3">
+            {getTiles(16).map((tile, i) => (
+              <Tile key={i} flip={() => flip(i)} {...tile} />
+            ))}
+          </div>
+        </div>
       </div>
-      {tryCount}
     </>
   );
 }
